@@ -1,19 +1,52 @@
 import tkinter as tk
+from modules.add_recipe_module import AddRecipeModule
+from modules.view_recipe_module import ViewRecipeModule
+from modules.search_recipe_module import SearchRecipeModule
 
 class RecipeBrowserApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Recipe Browser")
         
-        # Initialize the GUI components
-        self.create_widgets()
+        # Initialize the main menu
+        self.create_main_menu()
         
-    def create_widgets(self):
-        # Welcome label
-        welcome_label = tk.Label(self, text="Welcome to Recipe Browser!", font=("Helvetica", 16))
-        welcome_label.pack(pady=20)
+        # Initialize the modules
+        self.add_recipe_module = AddRecipeModule(self)
+        self.view_recipe_module = ViewRecipeModule(self)
+        self.search_recipe_module = SearchRecipeModule(self)
         
-        # Add more widgets here
+        # Pack the main menu by default
+        self.add_recipe_module.pack(fill=tk.BOTH, expand=True)
+        
+    def create_main_menu(self):
+        # Create main menu buttons for navigation
+        self.add_recipe_button = tk.Button(self, text="Add Recipe", command=self.show_add_recipe)
+        self.view_recipe_button = tk.Button(self, text="View Recipes", command=self.show_view_recipe)
+        self.search_recipe_button = tk.Button(self, text="Search Recipes", command=self.show_search_recipe)
+        
+        # Pack main menu buttons
+        self.add_recipe_button.pack(side=tk.LEFT)
+        self.view_recipe_button.pack(side=tk.LEFT)
+        self.search_recipe_button.pack(side=tk.LEFT)
+        
+    def show_add_recipe(self):
+        # Show the add recipe module
+        self.add_recipe_module.pack(fill=tk.BOTH, expand=True)
+        self.view_recipe_module.pack_forget()
+        self.search_recipe_module.pack_forget()
+        
+    def show_view_recipe(self):
+        # Show the view recipe module
+        self.add_recipe_module.pack_forget()
+        self.view_recipe_module.pack(fill=tk.BOTH, expand=True)
+        self.search_recipe_module.pack_forget()
+        
+    def show_search_recipe(self):
+        # Show the search recipe module
+        self.add_recipe_module.pack_forget()
+        self.view_recipe_module.pack_forget()
+        self.search_recipe_module.pack(fill=tk.BOTH, expand=True)
 
 if __name__ == "__main__":
     app = RecipeBrowserApp()
