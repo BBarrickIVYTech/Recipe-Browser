@@ -1,0 +1,48 @@
+import tkinter as tk
+
+class AddRecipeModule(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        
+        # Add recipe form components
+        self.title_label = tk.Label(self, text="Recipe Title:")
+        self.title_entry = tk.Entry(self)
+        self.ingredients_label = tk.Label(self, text="Ingredients:")
+        self.ingredients_entry = tk.Text(self, height=5, width=30)
+        self.instructions_label = tk.Label(self, text="Instructions:")
+        self.instructions_entry = tk.Text(self, height=10, width=30)
+        self.cuisine_label = tk.Label(self, text="Cuisine:")
+        self.cuisine_entry = tk.Entry(self)
+        self.meal_type_label = tk.Label(self, text="Meal Type:")
+        self.meal_type_entry = tk.Entry(self)
+        self.submit_button = tk.Button(self, text="Add Recipe", command=self.add_recipe)
+        
+        # Pack components
+        self.title_label.pack()
+        self.title_entry.pack()
+        self.ingredients_label.pack()
+        self.ingredients_entry.pack()
+        self.instructions_label.pack()
+        self.instructions_entry.pack()
+        self.cuisine_label.pack()
+        self.cuisine_entry.pack()
+        self.meal_type_label.pack()
+        self.meal_type_entry.pack()
+        self.submit_button.pack()
+        
+    def add_recipe(self):
+        # Retrieve input values from entry fields
+        title = self.title_entry.get()
+        ingredients = self.ingredients_entry.get("1.0", tk.END)
+        instructions = self.instructions_entry.get("1.0", tk.END)
+        cuisine = self.cuisine_entry.get()
+        meal_type = self.meal_type_entry.get()
+        
+        # Process the recipe data (e.g., save to a database)
+        # Placeholder code for demonstration purposes
+        print("New Recipe Added:")
+        print("Title:", title)
+        print("Ingredients:", ingredients)
+        print("Instructions:", instructions)
+        print("Cuisine:", cuisine)
+        print("Meal Type:", meal_type)

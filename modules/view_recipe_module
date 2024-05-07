@@ -1,0 +1,28 @@
+import tkinter as tk
+
+class ViewRecipeModule(tk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        
+        # View recipe components
+        self.recipe_listbox = tk.Listbox(self, height=10, width=40)
+        self.view_button = tk.Button(self, text="View Recipe", command=self.view_recipe)
+        
+        # Populate recipe listbox (placeholder data)
+        recipes = ["Recipe 1", "Recipe 2", "Recipe 3", "Recipe 4", "Recipe 5"]
+        for recipe in recipes:
+            self.recipe_listbox.insert(tk.END, recipe)
+        
+        # Pack components
+        self.recipe_listbox.pack()
+        self.view_button.pack()
+        
+    def view_recipe(self):
+        # Retrieve selected recipe from listbox
+        selected_index = self.recipe_listbox.curselection()
+        if selected_index:
+            selected_recipe = self.recipe_listbox.get(selected_index)
+            # Placeholder code to display selected recipe
+            print("Viewing Recipe:", selected_recipe)
+        else:
+            print("No recipe selected.")
