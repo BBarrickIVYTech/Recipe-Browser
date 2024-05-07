@@ -38,7 +38,6 @@ class AddRecipeModule(tk.Frame):
         cuisine = self.cuisine_entry.get()
         meal_type = self.meal_type_entry.get()
         
-        # Process the recipe data (e.g., save to a database)
         # Placeholder code for demonstration purposes
         print("New Recipe Added:")
         print("Title:", title)
@@ -46,3 +45,4 @@ class AddRecipeModule(tk.Frame):
         print("Instructions:", instructions)
         print("Cuisine:", cuisine)
         print("Meal Type:", meal_type)
+

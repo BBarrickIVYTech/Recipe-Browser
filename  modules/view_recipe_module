@@ -8,7 +8,7 @@ class ViewRecipeModule(tk.Frame):
         self.recipe_listbox = tk.Listbox(self, height=10, width=40)
         self.view_button = tk.Button(self, text="View Recipe", command=self.view_recipe)
         
-        # Populate recipe listbox (placeholder data)
+        # Placeholder data
         recipes = ["Recipe 1", "Recipe 2", "Recipe 3", "Recipe 4", "Recipe 5"]
         for recipe in recipes:
             self.recipe_listbox.insert(tk.END, recipe)

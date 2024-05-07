@@ -1,7 +1,7 @@
 import tkinter as tk
-from Recipe_Browser.modules.add_recipe_module import AddRecipeModule
-from Recipe_Browser.modules.view_recipe_module import ViewRecipeModule
-from Recipe_Browser.modules.search_recipe_module import SearchRecipeModule
+from modules.add_recipe_module import AddRecipeModule
+from modules.view_recipe_module import ViewRecipeModule
+from modules.search_recipe_module import SearchRecipeModule
 
 class RecipeBrowserApp(tk.Tk):
     def __init__(self):
@@ -51,3 +51,4 @@ class RecipeBrowserApp(tk.Tk):
 if __name__ == "__main__":
     app = RecipeBrowserApp()
     app.mainloop()
+
