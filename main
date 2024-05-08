@@ -1,7 +1,7 @@
 import tkinter as tk
-import AddRecipeModule
-import ViewRecipeModule
-import SearchRecipeModule
+from recipe_module import AddRecipeModule
+from recipe_module import ViewRecipeModule
+from recipe_module import SearchRecipeModule
 
 class RecipeBrowserApp(tk.Tk):
     def __init__(self):
