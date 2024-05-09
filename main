@@ -176,7 +176,8 @@ class RecipeBrowserApp(tk.Tk):
         self.search_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
         self.exit_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
-    # Other methods remain unchanged
+    def exit_application(self):
+        self.destroy()  # Close the main window and exit the application
 
 
     def show_add_recipe(self):
