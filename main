@@ -99,7 +99,7 @@ class SearchRecipeModule(tk.Frame):
 
     def create_widgets(self):
         # Search recipe form components with appropriate background and foreground colors
-        # (Add your search UI components here)
+        pass
 
     # Search method goes here
 
