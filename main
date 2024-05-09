@@ -7,6 +7,7 @@ Description:
 A recipe browser that allows users to search and browse through a collection of recipes. you have to enter your own recipes though,
 like a digital cook book. 
 
+Disclamer: i tried everything i could to get it to work in a modular desighn but i woudnt work, doing everything in one file is easyeist for me, i know its not the right way to do things but i dont have time or patiences to figure it out
 """
 
 import tkinter as tk
@@ -167,11 +168,15 @@ class RecipeBrowserApp(tk.Tk):
         self.add_recipe_button = tk.Button(main_menu_frame, text="Add Recipe", command=self.show_add_recipe, bg="#444444", fg="white")
         self.view_recipe_button = tk.Button(main_menu_frame, text="View Recipes", command=self.show_view_recipe, bg="#444444", fg="white")
         self.search_recipe_button = tk.Button(main_menu_frame, text="Search Recipes", command=self.show_search_recipe, bg="#444444", fg="white")
+        self.exit_button = tk.Button(main_menu_frame, text="Exit", command=self.quit, bg="#444444", fg="white")
 
         # Pack main menu buttons
         self.add_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
         self.view_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
         self.search_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
+        self.exit_button.pack(side=tk.RIGHT, padx=5, pady=5)
+
+    # Other methods remain unchanged
 
 
     def show_add_recipe(self):
