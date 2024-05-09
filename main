@@ -1,3 +1,14 @@
+"""
+Recipe Browser v1.9
+Author: Ben Barrick
+Date: 5/9/24
+
+Description:
+A recipe browser that allows users to search and browse through a collection of recipes. you have to enter your own recipes though,
+like a digital cook book. 
+
+"""
+
 import tkinter as tk
 from tkinter import messagebox
 import os
