@@ -1,5 +1,5 @@
 """
-Recipe Browser v1.9
+Recipe Browser v1.10
 Author: Ben Barrick
 Date: 5/9/24
 
@@ -10,29 +10,28 @@ like a digital cook book.
 """
 
 import tkinter as tk
-from tkinter import messagebox
-import os
+import tempfile
+import subprocess
 
 class AddRecipeModule(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
-        self.configure(bg="#2b2b2b")  # Set background color
         self.create_widgets()
 
     def create_widgets(self):
-        # Add recipe form components with appropriate background and foreground colors
-        self.title_label = tk.Label(self, text="Recipe Title:", bg="#2b2b2b", fg="white")
-        self.title_entry = tk.Entry(self, bg="black", fg="white")
-        self.ingredients_label = tk.Label(self, text="Ingredients:", bg="#2b2b2b", fg="white")
-        self.ingredients_entry = tk.Text(self, height=5, width=30, bg="black", fg="white")
-        self.instructions_label = tk.Label(self, text="Instructions:", bg="#2b2b2b", fg="white")
-        self.instructions_entry = tk.Text(self, height=10, width=30, bg="black", fg="white")
-        self.cuisine_label = tk.Label(self, text="Cuisine:", bg="#2b2b2b", fg="white")
-        self.cuisine_entry = tk.Entry(self, bg="black", fg="white")
-        self.meal_type_label = tk.Label(self, text="Meal Type:", bg="#2b2b2b", fg="white")
-        self.meal_type_entry = tk.Entry(self, bg="black", fg="white")
-        self.save_button = tk.Button(self, text="Save Recipe", command=self.save_recipe, bg="#444444", fg="white")
+        # Add recipe form components
+        self.title_label = tk.Label(self, text="Recipe Title:")
+        self.title_entry = tk.Entry(self)
+        self.ingredients_label = tk.Label(self, text="Ingredients:")
+        self.ingredients_entry = tk.Text(self, height=5, width=30)
+        self.instructions_label = tk.Label(self, text="Instructions:")
+        self.instructions_entry = tk.Text(self, height=10, width=30)
+        self.cuisine_label = tk.Label(self, text="Cuisine:")
+        self.cuisine_entry = tk.Entry(self)
+        self.meal_type_label = tk.Label(self, text="Meal Type:")
+        self.meal_type_entry = tk.Entry(self)
+        self.save_button = tk.Button(self, text="Save Recipe", command=self.save_recipe)
 
         # Pack components
         self.title_label.pack()
@@ -54,52 +53,29 @@ class AddRecipeModule(tk.Frame):
         instructions = self.instructions_entry.get("1.0", tk.END)
         cuisine = self.cuisine_entry.get()
         meal_type = self.meal_type_entry.get()
-        
-        # Format recipe data
-        recipe_data = f"Title: {title}\nIngredients:\n{ingredients}\nInstructions:\n{instructions}\nCuisine: {cuisine}\nMeal Type: {meal_type}\n"
-        
-        # Save recipe to a text file
-        with open("recipes.txt", "a") as file:
-            # Create the file if it doesn't exist
-            if not os.path.exists("recipes.txt"):
-                file.write("")
 
-            # Write recipe data to the file
-            file.write(recipe_data)
-        
-        # Notify the user that the recipe has been saved
-        messagebox.showinfo("Recipe Saved", "The recipe has been saved successfully!")
+        # Process the recipe data (e.g., save to a file)
+        with open("recipes.txt", "a") as file:
+            file.write(f"Title: {title}\n")
+            file.write(f"Ingredients: {ingredients}\n")
+            file.write(f"Instructions: {instructions}\n")
+            file.write(f"Cuisine: {cuisine}\n")
+            file.write(f"Meal Type: {meal_type}\n")
+            file.write("\n")
+
+        # Show confirmation message
+        tk.messagebox.showinfo("Recipe Saved", "The recipe has been saved successfully!")
 
 class ViewRecipeModule(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
-        self.configure(bg="#2b2b2b")  # Set background color
         self.create_widgets()
 
     def create_widgets(self):
-        # Text widget to display recipes with appropriate background and foreground colors
-        self.recipes_text = tk.Text(self, height=20, width=50, bg="black", fg="white")
+        # Text box to display recipes
+        self.recipes_text = tk.Text(self, height=20, width=50)
         self.recipes_text.pack()
-
-        # Button to refresh recipes with appropriate background and foreground colors
-        self.refresh_button = tk.Button(self, text="Refresh", command=self.refresh_recipes, bg="#444444", fg="white")
-        self.refresh_button.pack()
-
-        # Initially load recipes
-        self.refresh_recipes()
-
-    def refresh_recipes(self):
-        # Clear existing recipes
-        self.recipes_text.delete("1.0", tk.END)
-
-        # Read recipes from file and display them
-        try:
-            with open("recipes.txt", "r") as file:
-                recipes = file.read()
-                self.recipes_text.insert(tk.END, recipes)
-        except FileNotFoundError:
-            self.recipes_text.insert(tk.END, "No recipes found.")
 
 class SearchRecipeModule(tk.Frame):
     def __init__(self, parent):
@@ -134,13 +110,27 @@ class SearchRecipeModule(tk.Frame):
         try:
             with open("recipes.txt", "r") as file:
                 recipes = file.readlines()
-                for recipe in recipes:
+                for idx, recipe in enumerate(recipes, start=1):
                     if keyword in recipe.lower():
-                        self.search_results_text.insert(tk.END, recipe)
+                        # Display recipe in search results text box
+                        self.search_results_text.insert(tk.END, f"{idx}. {recipe}")
+
+                        # Bind the click event to open the recipe in a temporary file
+                        self.search_results_text.tag_bind(f"tag{idx}", "<Button-1>", lambda event, recipe=recipe: self.open_temp_file(recipe))
+                        self.search_results_text.tag_config(f"tag{idx}", foreground="blue", underline=True)
         except FileNotFoundError:
             self.search_results_text.insert(tk.END, "No recipes found.")
 
+    def open_temp_file(self, recipe):
+        # Create a temporary file and write the recipe content to it
+        with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
+            temp_file.write(recipe)
 
+        # Open the temporary file in the default text editor
+        try:
+            subprocess.Popen(["notepad", temp_file.name])
+        except FileNotFoundError:
+            print("Error: Unable to open temporary file. Please ensure Notepad is installed.")
 
 class RecipeBrowserApp(tk.Tk):
     def __init__(self):
@@ -172,7 +162,6 @@ class RecipeBrowserApp(tk.Tk):
         self.add_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
         self.view_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
         self.search_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
-
 
     def show_add_recipe(self):
         # Show the add recipe module
