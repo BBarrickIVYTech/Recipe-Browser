@@ -99,9 +99,32 @@ class SearchRecipeModule(tk.Frame):
 
     def create_widgets(self):
         # Search recipe form components with appropriate background and foreground colors
-        pass
+        self.search_label = tk.Label(self, text="Enter Keyword:", bg="#2b2b2b", fg="white")
+        self.search_entry = tk.Entry(self, bg="black", fg="white")
+        self.search_button = tk.Button(self, text="Search", command=self.search_recipe, bg="#444444", fg="white")
 
-    # Search method goes here
+        # Pack search form components
+        self.search_label.pack()
+        self.search_entry.pack()
+        self.search_button.pack()
+
+    def search_recipe(self):
+        # Retrieve the keyword from the search entry
+        keyword = self.search_entry.get().lower()
+
+        # Clear existing search results
+        self.parent.view_recipe_module.recipes_text.delete("1.0", tk.END)
+
+        # Read recipes from file and search for keyword
+        try:
+            with open("recipes.txt", "r") as file:
+                recipes = file.readlines()
+                for recipe in recipes:
+                    if keyword in recipe.lower():
+                        self.parent.view_recipe_module.recipes_text.insert(tk.END, recipe)
+        except FileNotFoundError:
+            self.parent.view_recipe_module.recipes_text.insert(tk.END, "No recipes found.")
+
 
 class RecipeBrowserApp(tk.Tk):
     def __init__(self):
