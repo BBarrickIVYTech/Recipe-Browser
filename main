@@ -104,16 +104,20 @@ class SearchRecipeModule(tk.Frame):
         self.search_button = tk.Button(self, text="Search", command=self.search_recipe, bg="#444444", fg="white")
 
         # Pack search form components
-        self.search_label.pack()
-        self.search_entry.pack()
-        self.search_button.pack()
+        self.search_label.grid(row=0, column=0, padx=5, pady=5)
+        self.search_entry.grid(row=0, column=1, padx=5, pady=5)
+        self.search_button.grid(row=0, column=2, padx=5, pady=5)
+
+        # Create text box to display search results
+        self.search_results_text = tk.Text(self, height=10, width=50, bg="black", fg="white")
+        self.search_results_text.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
 
     def search_recipe(self):
         # Retrieve the keyword from the search entry
         keyword = self.search_entry.get().lower()
 
         # Clear existing search results
-        self.parent.view_recipe_module.recipes_text.delete("1.0", tk.END)
+        self.search_results_text.delete("1.0", tk.END)
 
         # Read recipes from file and search for keyword
         try:
@@ -121,9 +125,10 @@ class SearchRecipeModule(tk.Frame):
                 recipes = file.readlines()
                 for recipe in recipes:
                     if keyword in recipe.lower():
-                        self.parent.view_recipe_module.recipes_text.insert(tk.END, recipe)
+                        self.search_results_text.insert(tk.END, recipe)
         except FileNotFoundError:
-            self.parent.view_recipe_module.recipes_text.insert(tk.END, "No recipes found.")
+            self.search_results_text.insert(tk.END, "No recipes found.")
+
 
 
 class RecipeBrowserApp(tk.Tk):
