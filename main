@@ -120,15 +120,20 @@ class RecipeBrowserApp(tk.Tk):
         self.add_recipe_module.pack(fill=tk.BOTH, expand=True)
 
     def create_main_menu(self):
-        # Create main menu buttons for navigation
-        self.add_recipe_button = tk.Button(self, text="Add Recipe", command=self.show_add_recipe)
-        self.view_recipe_button = tk.Button(self, text="View Recipes", command=self.show_view_recipe)
-        self.search_recipe_button = tk.Button(self, text="Search Recipes", command=self.show_search_recipe)
+    # Create main menu frame
+    main_menu_frame = tk.Frame(self, bg="#2b2b2b")
+    main_menu_frame.pack(side=tk.BOTTOM, fill=tk.X)
 
-        # Pack main menu buttons
-        self.add_recipe_button.pack(side=tk.LEFT)
-        self.view_recipe_button.pack(side=tk.LEFT)
-        self.search_recipe_button.pack(side=tk.LEFT)
+    # Create main menu buttons for navigation with appropriate background and foreground colors
+    self.add_recipe_button = tk.Button(main_menu_frame, text="Add Recipe", command=self.show_add_recipe, bg="#444444", fg="white")
+    self.view_recipe_button = tk.Button(main_menu_frame, text="View Recipes", command=self.show_view_recipe, bg="#444444", fg="white")
+    self.search_recipe_button = tk.Button(main_menu_frame, text="Search Recipes", command=self.show_search_recipe, bg="#444444", fg="white")
+
+    # Pack main menu buttons
+    self.add_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
+    self.view_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
+    self.search_recipe_button.pack(side=tk.LEFT, padx=5, pady=5)
+
 
     def show_add_recipe(self):
         # Show the add recipe module
